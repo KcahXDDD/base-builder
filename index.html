@@ -1,45 +1,276 @@
-<!DOCTYPE html>
+<!DOCTYPE html>    
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Base Builder - Taming.io</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Builder - Taming.io</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Audio Player -->
+    <audio id="bgMusic" loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Music Control Button -->
+    <div id="musicControl" style="position: fixed; bottom: 20px; right: 20px; z-index: 10000; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px 16px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); display: flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">
+        <span id="musicIcon" style="font-size: 20px;">🔊</span>
+        <input type="range" id="volumeControl" min="0" max="100" value="20" style="width: 80px; cursor: pointer;">
+    </div>
+    
+    <div class="container">
+        <h1>Base Builder - Taming.io</h1>
 
-<div class="container">
-  <h1>Base Builder - Taming.io</h1>
+        <div class="player-settings">
+            <label for="playerCount">Builders:</label>
+            <input type="number" id="playerCount" min="1" max="10" value="1" placeholder="Builders">
+            <button id="saveProjectBtn" style="margin-left: 20px; padding: 8px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s;">💾 Save Project</button>
+        </div>
 
-  <div class="player-settings">
-    <label>builders:</label>
-    <input type="number" id="playerCount" min="1" value="1">
-    <button id="saveTxt">save .txt</button>
-  </div>
+        <div class="toolbar">
+            <div class="structure-item" draggable="true" data-structure="heal-pad">
+                <img src="img/heal-pad.png" alt="Heal Pad">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="wall">
+                <img src="img/wall.png" alt="Wall">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="windmill">
+                <img src="img/windmill.png" alt="Windmill">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="repair-tower">
+                <img src="img/repair-tower.png" alt="Repair Tower">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="water-tower">
+                <img src="img/water-tower.png" alt="Water Tower">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="plant-tower">
+                <img src="img/plant-tower.png" alt="Plant Tower">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="spectrum-tower">
+                <img src="img/spectrum-tower.png" alt="Spectrum Tower">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="fire-tower">
+                <img src="img/fire-tower.png" alt="Fire Tower">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="ice-tower">
+                <img src="img/ice-tower.png" alt="Ice Tower">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="electric-tower">
+                <img src="img/electric-tower.png" alt="Electric Tower">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="rock-tower">
+                <img src="img/rock-tower.png" alt="Rock Tower">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="turrets">
+                <img src="img/turrets.png" alt="Turrets">
+            </div>
+            <!-- New blocks added -->
+            <div class="structure-item" draggable="true" data-structure="mauve">
+                <img src="img/mauve.png" alt="Mauve">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="water-mask">
+                <img src="img/water-mask.png" alt="Water Mask">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="door">
+                <img src="img/door.png" alt="Door">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="totem">
+                <img src="img/totem.png" alt="Totem">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="normal-fairy">
+                <img src="img/normal-fairy.png" alt="Normal Fairy">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="normal-mask">
+                <img src="img/normal-mask.png" alt="Normal Mask">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="rock-mask">
+                <img src="img/rock-mask.png" alt="Rock Mask">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="water-fairy">
+                <img src="img/water-fairy.png" alt="Water Fairy">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="poison-fairy">
+                <img src="img/poison-fairy.png" alt="Poison Fairy">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="big-spike">
+                <img src="img/big-spike.png" alt="Big Spike" style="width: 80px; height: 80px;">
+            </div>
+            <div class="structure-item" draggable="true" data-structure="breno-tower">
+                <img src="img/breno-tower.png" alt="Breno Tower">
+            </div>
+        </div>
 
-  <div class="toolbar">
-    <div class="structure-item" draggable="true" data-type="fire-tower">
-      <img src="img/fire-tower.png">
-      <span class="counter">0/1</span>
+        <div class="build-area" id="buildArea">
+            <!-- Trash bin invisível para o script.js funcionar -->
+            <div class="trash-bin" id="trashBin" style="display: none;"></div>
+            
+            <!-- Painel de Atalhos -->
+            <div style="position: absolute; top: 120px; right: 20px; background: rgba(0, 0, 0, 0.85); padding: 16px 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); border: 2px solid rgba(255, 255, 255, 0.1); min-width: 200px;">
+                <div style="font-size: 16px; font-weight: bold; color: #ffffff; margin-bottom: 12px; text-align: center; border-bottom: 2px solid rgba(255, 255, 255, 0.2); padding-bottom: 8px;">⌨️ Shortcuts</div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 4px 10px; border-radius: 6px; font-weight: bold; color: white; min-width: 80px; text-align: center; font-size: 12px; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);">R</span>
+                        <span style="color: #e0e0e0; font-size: 13px;">🔄 Rotate</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 4px 10px; border-radius: 6px; font-weight: bold; color: white; min-width: 80px; text-align: center; font-size: 12px; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);">SCROLL</span>
+                        <span style="color: #e0e0e0; font-size: 13px;">🔄 Rotate</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); padding: 4px 10px; border-radius: 6px; font-weight: bold; color: white; min-width: 80px; text-align: center; font-size: 12px; box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);">DELETE</span>
+                        <span style="color: #e0e0e0; font-size: 13px;">🗑️ Remove</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); padding: 4px 10px; border-radius: 6px; font-weight: bold; color: white; min-width: 80px; text-align: center; font-size: 12px; box-shadow: 0 2px 8px rgba(17, 153, 142, 0.4);">DRAG</span>
+                        <span style="color: #e0e0e0; font-size: 13px;">✋ Move</span>
+                    </div>
+                </div>
+            </div>
+            <div class="signature">
+                By: evoque
+            </div>
+            <div style="position: absolute; bottom: 35px; left: 10px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #ffffff; background: rgba(0, 0, 0, 0.7); padding: 8px 14px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4); border: 1px solid rgba(88, 101, 242, 0.3);">
+                <span style="font-weight: 500;">Donations & Suggestions</span>
+                <svg style="width: 20px; height: 20px; filter: drop-shadow(0 0 4px rgba(88, 101, 242, 0.6));" viewBox="0 0 24 24" fill="#5865F2">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+                <span style="font-weight: bold; color: #5865F2; text-shadow: 0 0 6px rgba(88, 101, 242, 0.7); font-size: 14px;">nz201</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="clearBtn">Clean</button>
+        </div>
+        <div class="instructions" style="text-align:center; margin-top:10px; font-size:20px; color:#ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
+            To rotate the blocks: select it, then use the scroll wheel or press <strong>R</strong>
+        </div>
     </div>
 
-    <div class="structure-item" draggable="true" data-type="wall">
-      <img src="img/wall.png">
-      <span class="counter">0/50</span>
-    </div>
-
-    <div class="structure-item" draggable="true" data-type="door">
-      <img src="img/door.png">
-      <span class="counter">0/8</span>
-    </div>
-  </div>
-
-  <div class="build-area" id="buildArea">
-    <div id="eraser">🧽</div>
-  </div>
-
-  <button id="clearBtn">clean</button>
-</div>
-
-<script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        // Função para salvar o projeto como imagem PNG
+        document.getElementById('saveProjectBtn').addEventListener('click', async function() {
+            const btn = document.getElementById('saveProjectBtn');
+            const originalText = btn.innerHTML;
+            
+            // Feedback visual durante o processo
+            btn.innerHTML = '📸 Capturing...';
+            btn.disabled = true;
+            
+            try {
+                const buildArea = document.getElementById('buildArea');
+                
+                // Ocultar temporariamente elementos que não devem aparecer no print
+                const trashBin = document.getElementById('trashBin');
+                const signature = buildArea.querySelector('.signature');
+                const donations = buildArea.querySelectorAll('div[style*="Donations"]');
+                
+                const hideElements = [trashBin, signature, ...donations].filter(el => el);
+                hideElements.forEach(el => el.style.display = 'none');
+                
+                // Capturar a área de construção como imagem
+                const canvas = await html2canvas(buildArea, {
+                    backgroundColor: '#2d5016',
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                });
+                
+                // Restaurar elementos ocultos
+                hideElements.forEach(el => el.style.display = '');
+                
+                // Converter canvas para PNG e fazer download
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `taming-base-${new Date().getTime()}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                    
+                    // Feedback de sucesso
+                    btn.innerHTML = '✅ Saved!';
+                    btn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                        btn.disabled = false;
+                    }, 2000);
+                });
+                
+            } catch (error) {
+                console.error('Erro ao capturar imagem:', error);
+                btn.innerHTML = '❌ Error';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }
+        });
+        
+        // Efeito hover no botão
+        const saveBtn = document.getElementById('saveProjectBtn');
+        saveBtn.addEventListener('mouseenter', function() {
+            if (!this.disabled) {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 6px 12px rgba(0,0,0,0.3)';
+            }
+        });
+        saveBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 6px rgba(0,0,0,0.2)';
+        });
+        
+        // Music player controls
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicIcon = document.getElementById('musicIcon');
+        const volumeControl = document.getElementById('volumeControl');
+        
+        // Set initial volume (20%)
+        bgMusic.volume = 0.2;
+        
+        let isPlaying = false;
+        
+        // Toggle play/pause
+        musicControl.addEventListener('click', function(e) {
+            if (e.target.id === 'volumeControl') return; // Don't toggle when clicking volume slider
+            
+            if (isPlaying) {
+                bgMusic.pause();
+                musicIcon.textContent = '🔇';
+                isPlaying = false;
+            } else {
+                bgMusic.play().catch(err => console.log('Playback prevented:', err));
+                musicIcon.textContent = '🔊';
+                isPlaying = true;
+            }
+        });
+        
+        // Volume control
+        volumeControl.addEventListener('input', function() {
+            bgMusic.volume = this.value / 100;
+            if (this.value == 0) {
+                musicIcon.textContent = '🔇';
+            } else {
+                musicIcon.textContent = isPlaying ? '🔊' : '🔇';
+            }
+        });
+        
+        // Auto-play attempt (browsers may block this)
+        window.addEventListener('load', function() {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicIcon.textContent = '🔊';
+            }).catch(err => {
+                console.log('Auto-play prevented. Click the music button to play.');
+                isPlaying = false;
+                musicIcon.textContent = '🔇';
+            });
+        });
+    </script>
+    <script src="script.js"></script>
 </body>
 </html>
