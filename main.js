@@ -5,16 +5,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const playerCount = document.getElementById('playerCount');
 
     const structureLimits = {
-        'tree': 2,
-        'rock': 2,
-        'gold': 1,
-        'bush': 2,
-        'windmill': 8,
-        'turret': 2,
-        'hard-spike': 30,
-        'castle-spike': 30,
-        'plataform': 32,
-        'roof': 32,
+        'heal-pad': 1,
+        'wall': 50,
+        'windmill': 5,
+        'repair-tower': 1,
+        'water-tower': 1,
+        'plant-tower': 1,
+        'spectrum-tower': 1,
+        'fire-tower': 1,
+        'ice-tower': 1,
+        'electric-tower': 1,
+        'rock-tower': 1,
+        'turrets': 2,
+        'door': 8,
+        'totem': 1,
+        'mauve': 3,
+        'water-mask': 3,
+        'normal-fairy': 3,    // new block
+        'normal-mask': 3,     // new block
+        'rock-mask': 3,       // new block
+        'water-fairy': 3      // new block
     };
 
     const placedStructuresCount = {};
