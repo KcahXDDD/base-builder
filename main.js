@@ -27,8 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'rock-mask': 3,
         'water-fairy': 3,
         'poison-fairy': 3,
-        'big-spike': 10,
-        'breno-tower': 1
+        'big-spike': 10
     };
 
     const placedStructuresCount = {};
