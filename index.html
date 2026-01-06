@@ -5,17 +5,6 @@
     <link rel="stylesheet" href="style.css">
 <style type="text/css" id="operaUserStyle"></style></head>
 <body>
-    <!-- Audio Player -->
-    <audio id="bgMusic" loop="">
-        <source src="background-music.mp3" type="audio/mpeg">
-    </audio>
-    
-    <!-- Music Control Button -->
-    <div id="musicControl" style="position: fixed; bottom: 20px; right: 20px; z-index: 10000; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px 16px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); display: flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">
-        <span id="musicIcon" style="font-size: 20px;">🔇</span>
-        <input type="range" id="volumeControl" min="0" max="100" value="20" style="width: 80px; cursor: pointer;">
-    </div>
-    
     <div class="container">
         <h1>Base Builder - Taming.io</h1>
 
@@ -62,7 +51,6 @@
             <div class="structure-item" draggable="true" data-structure="turrets" style="opacity: 1; cursor: grab;">
                 <img src="img/turrets.png" alt="Turrets">
             <div class="structure-counter">0/2</div></div>
-            <!-- New blocks added -->
             <div class="structure-item" draggable="true" data-structure="mauve" style="opacity: 1; cursor: grab;">
                 <img src="img/mauve.png" alt="Mauve">
             <div class="structure-counter">0/3</div></div>
@@ -87,15 +75,6 @@
             <div class="structure-item" draggable="true" data-structure="water-fairy" style="opacity: 1; cursor: grab;">
                 <img src="img/water-fairy.png" alt="Water Fairy">
             <div class="structure-counter">0/3</div></div>
-            <div class="structure-item" draggable="true" data-structure="poison-fairy" style="opacity: 1; cursor: grab;">
-                <img src="img/poison-fairy.png" alt="Poison Fairy">
-            <div class="structure-counter">1/3</div></div>
-            <div class="structure-item" draggable="true" data-structure="big-spike" style="opacity: 1; cursor: grab;">
-                <img src="img/big-spike.png" alt="Big Spike" style="width: 80px; height: 80px;">
-            <div class="structure-counter">0/10</div></div>
-            <div class="structure-item" draggable="true" data-structure="breno-tower" style="opacity: 1; cursor: grab;">
-                <img src="img/breno-tower.png" alt="Breno Tower">
-            <div class="structure-counter">0/1</div></div>
         </div>
 
         <div class="build-area" id="buildArea">
@@ -125,14 +104,14 @@
                 </div>
             </div>
             <div class="signature">
-                By: evoque
+                By: dyc uwu
             </div>
             <div style="position: absolute; bottom: 35px; left: 10px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #ffffff; background: rgba(0, 0, 0, 0.7); padding: 8px 14px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4); border: 1px solid rgba(88, 101, 242, 0.3);">
                 <span style="font-weight: 500;">Donations &amp; Suggestions</span>
                 <svg style="width: 20px; height: 20px; filter: drop-shadow(0 0 4px rgba(88, 101, 242, 0.6));" viewBox="0 0 24 24" fill="#5865F2">
                     <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"></path>
                 </svg>
-                <span style="font-weight: bold; color: #5865F2; text-shadow: 0 0 6px rgba(88, 101, 242, 0.7); font-size: 14px;">nz201</span>
+                <span style="font-weight: bold; color: #5865F2; text-shadow: 0 0 6px rgba(88, 101, 242, 0.7); font-size: 14px;">ehhdyc</span>
             </div>
         <div class="placed-structure" data-structure="repair-tower" style="position: absolute; left: 289px; top: 77px;"><img src="img/repair-tower.png" alt="repair-tower"></div><div class="placed-structure" data-structure="poison-fairy" style="position: absolute; left: 569px; top: 62px;"><img src="img/poison-fairy.png" alt="poison-fairy"></div></div><div style="display: flex; justify-content: center; margin-top: 10px;"><label style="margin-right: 10px; color: rgb(51, 51, 51); font-weight: bold; align-self: center;">Scale: </label><input type="range" min="0.5" max="1" step="0.1" style="width: 300px;"></div>
 
@@ -219,54 +198,6 @@
         saveBtn.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = '0 4px 6px rgba(0,0,0,0.2)';
-        });
-        
-        // Music player controls
-        const bgMusic = document.getElementById('bgMusic');
-        const musicControl = document.getElementById('musicControl');
-        const musicIcon = document.getElementById('musicIcon');
-        const volumeControl = document.getElementById('volumeControl');
-        
-        // Set initial volume (20%)
-        bgMusic.volume = 0.2;
-        
-        let isPlaying = false;
-        
-        // Toggle play/pause
-        musicControl.addEventListener('click', function(e) {
-            if (e.target.id === 'volumeControl') return; // Don't toggle when clicking volume slider
-            
-            if (isPlaying) {
-                bgMusic.pause();
-                musicIcon.textContent = '🔇';
-                isPlaying = false;
-            } else {
-                bgMusic.play().catch(err => console.log('Playback prevented:', err));
-                musicIcon.textContent = '🔊';
-                isPlaying = true;
-            }
-        });
-        
-        // Volume control
-        volumeControl.addEventListener('input', function() {
-            bgMusic.volume = this.value / 100;
-            if (this.value == 0) {
-                musicIcon.textContent = '🔇';
-            } else {
-                musicIcon.textContent = isPlaying ? '🔊' : '🔇';
-            }
-        });
-        
-        // Auto-play attempt (browsers may block this)
-        window.addEventListener('load', function() {
-            bgMusic.play().then(() => {
-                isPlaying = true;
-                musicIcon.textContent = '🔊';
-            }).catch(err => {
-                console.log('Auto-play prevented. Click the music button to play.');
-                isPlaying = false;
-                musicIcon.textContent = '🔇';
-            });
         });
     </script>
     <script src="script.js"></script>
