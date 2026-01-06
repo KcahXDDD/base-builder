@@ -25,9 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
         'normal-mask': 3,     // new block
         'rock-mask': 3,       // new block
         'water-fairy': 3,     // new block
-          'poison-fairy': 3,    // Poison Fairy
-          'big-spike': 10,      // Big Spike
-        'breno-tower': 1      // Breno Tower
     };
 
     const placedStructuresCount = {};
