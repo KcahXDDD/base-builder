@@ -1,46 +1,128 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Base Builder - Taming.io</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+document.addEventListener("DOMContentLoaded", () => {
+  const buildArea = document.getElementById("buildArea");
+  const items = document.querySelectorAll(".structure-item");
+  const playerCount = document.getElementById("playerCount");
+  const eraserBtn = document.getElementById("eraser");
+  const saveBtn = document.getElementById("saveTxt");
+  const clearBtn = document.getElementById("clearBtn");
 
-<h1>Base Builder - Taming.io</h1>
+  let eraserMode = false;
+  let selected = null;
 
-<div class="top-controls">
-  Builders:
-  <input type="number" id="builders" min="0">
-</div>
+  const limits = {
+    "fire-tower": 1,
+    "wall": 50,
+    "door": 8
+  };
 
-<div class="buttons">
-  <button onclick="showItems('fire')">
-    <img src="img/fire.png">
-  </button>
-  <button onclick="showItems('wood')">
-    <img src="img/wood.png">
-  </button>
-  <button onclick="showItems('stone')">
-    <img src="img/stone.png">
-  </button>
-  <button onclick="showItems('gold')">
-    <img src="img/gold.png">
-  </button>
-  <button onclick="showItems('misc')">
-    <img src="img/misc.png">
-  </button>
-</div>
+  const placedCount = {};
+  Object.keys(limits).forEach(k => placedCount[k] = 0);
 
-<div id="items"></div>
+  function updateCounters() {
+    const players = parseInt(playerCount.value) || 1;
+    items.forEach(item => {
+      const type = item.dataset.type;
+      const limit = limits[type] * players;
+      item.querySelector(".counter").textContent =
+        `${placedCount[type]}/${limit}`;
 
-<div class="builder-area">
-  <div id="eraser" onclick="toggleEraser()">🧽</div>
-  <div id="grid"></div>
-</div>
+      item.draggable = placedCount[type] < limit;
+      item.style.opacity = placedCount[type] < limit ? "1" : "0.4";
+    });
+  }
 
-<button onclick="saveBase()">salvar base</button>
+  updateCounters();
 
-<script src="script.js"></script>
-</body>
-</html>
+  items.forEach(item => {
+    item.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("type", item.dataset.type);
+    });
+  });
+
+  buildArea.addEventListener("dragover", e => e.preventDefault());
+
+  buildArea.addEventListener("drop", e => {
+    e.preventDefault();
+    const type = e.dataTransfer.getData("type");
+    if (!type) return;
+
+    const limit = limits[type] * (parseInt(playerCount.value) || 1);
+    if (placedCount[type] >= limit) return;
+
+    const block = document.createElement("div");
+    block.className = "placed";
+    block.dataset.type = type;
+
+    const img = document.createElement("img");
+    img.src = `img/${type}.png`;
+    block.appendChild(img);
+
+    buildArea.appendChild(block);
+
+    const rect = buildArea.getBoundingClientRect();
+    block.style.left = `${e.clientX - rect.left}px`;
+    block.style.top = `${e.clientY - rect.top}px`;
+
+    enableDrag(block);
+    placedCount[type]++;
+    updateCounters();
+  });
+
+  function enableDrag(el) {
+    let ox, oy, mx, my;
+
+    el.addEventListener("mousedown", e => {
+      if (eraserMode) return;
+      selected?.classList.remove("selected");
+      selected = el;
+      el.classList.add("selected");
+
+      ox = e.clientX;
+      oy = e.clientY;
+      mx = parseInt(el.style.left);
+      my = parseInt(el.style.top);
+
+      document.onmousemove = ev => {
+        el.style.left = mx + ev.clientX - ox + "px";
+        el.style.top = my + ev.clientY - oy + "px";
+      };
+
+      document.onmouseup = () => {
+        document.onmousemove = null;
+      };
+    });
+
+    el.addEventListener("click", () => {
+      if (!eraserMode) return;
+      placedCount[el.dataset.type]--;
+      el.remove();
+      updateCounters();
+    });
+  }
+
+  eraserBtn.onclick = () => {
+    eraserMode = !eraserMode;
+    eraserBtn.classList.toggle("active");
+  };
+
+  saveBtn.onclick = () => {
+    let txt = "";
+    document.querySelectorAll(".placed").forEach((el, i) => {
+      txt += `${el.dataset.type}${i} = {\n`;
+      txt += `x:${el.style.left}\n`;
+      txt += `y:${el.style.top}\n}\n\n`;
+    });
+
+    const blob = new Blob([txt], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "base.txt";
+    a.click();
+  };
+
+  clearBtn.onclick = () => {
+    document.querySelectorAll(".placed").forEach(el => el.remove());
+    Object.keys(placedCount).forEach(k => placedCount[k] = 0);
+    updateCounters();
+  };
+});
