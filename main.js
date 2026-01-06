@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'rock-mask': 3,
         'water-fairy': 3,
         'poison-fairy': 3,
-        'big-spike': 10
+        'big-spike': 12
     };
 
     const placedStructuresCount = {};
