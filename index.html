@@ -1,101 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base Builder - Taming.io</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Base Builder - Taming.io</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Base Builder - Taming.io</h1>
-        
-        <div class="player-settings">
-            <label for="playerCount">Builders:</label>
-            <input type="number" id="playerCount" min="1" max="10" value="1" placeholder="Builders">
-        </div>
-        
-        <div class="toolbar">
-            <div class="structure-item" draggable="true" data-structure="heal-pad">
-                <img src="img/heal-pad.png" alt="Heal Pad">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="wall">
-                <img src="img/wall.png" alt="Wall">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="windmill">
-                <img src="img/windmill.png" alt="Windmill">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="repair-tower">
-                <img src="img/repair-tower.png" alt="Repair Tower">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="water-tower">
-                <img src="img/water-tower.png" alt="Water Tower">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="plant-tower">
-                <img src="img/plant-tower.png" alt="Plant Tower">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="spectrum-tower">
-                <img src="img/spectrum-tower.png" alt="Spectrum Tower">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="fire-tower">
-                <img src="img/fire-tower.png" alt="Fire Tower">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="ice-tower">
-                <img src="img/ice-tower.png" alt="Ice Tower">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="electric-tower">
-                <img src="img/electric-tower.png" alt="Electric Tower">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="rock-tower">
-                <img src="img/rock-tower.png" alt="Rock Tower">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="turrets">
-                <img src="img/turrets.png" alt="Turrets">
-            </div>
-            <!-- New blocks added -->
-            <div class="structure-item" draggable="true" data-structure="mauve">
-                <img src="img/mauve.png" alt="Mauve">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="water-mask">
-                <img src="img/water-mask.png" alt="Water Mask">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="door">
-                <img src="img/door.png" alt="Door">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="totem">
-                <img src="img/totem.png" alt="Totem">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="normal-fairy">
-                <img src="img/normal-fairy.png" alt="Normal Fairy">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="normal-mask">
-                <img src="img/normal-mask.png" alt="Normal Mask">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="rock-mask">
-                <img src="img/rock-mask.png" alt="Rock Mask">
-            </div>
-            <div class="structure-item" draggable="true" data-structure="water-fairy">
-                <img src="img/water-fairy.png" alt="Water Fairy">
-            </div>
-        </div>
-        
-        <div class="build-area" id="buildArea">
-            <div class="trash-bin" id="trashBin">
-                <img src="img/trash-bin.png" alt="Lixeira">
-            </div>
-            <div class="signature">
-                By: Hagrid#201162
-            </div>
-        </div>
 
-        <div class="controls">
-            <button id="clearBtn">Clean</button>
-        </div>
-        <div class="instructions" style="text-align:center; margin-top:10px; font-size:24px; color:#555;">
-            To rotate the blocks, first select it then use the scroll.
-        </div>
-    </div>
+<h1>Base Builder - Taming.io</h1>
 
-    <script src="script.js"></script>
+<div class="top-controls">
+  Builders:
+  <input type="number" id="builders" min="0">
+</div>
+
+<div class="buttons">
+  <button onclick="showItems('fire')">
+    <img src="img/fire.png">
+  </button>
+  <button onclick="showItems('wood')">
+    <img src="img/wood.png">
+  </button>
+  <button onclick="showItems('stone')">
+    <img src="img/stone.png">
+  </button>
+  <button onclick="showItems('gold')">
+    <img src="img/gold.png">
+  </button>
+  <button onclick="showItems('misc')">
+    <img src="img/misc.png">
+  </button>
+</div>
+
+<div id="items"></div>
+
+<div class="builder-area">
+  <div id="eraser" onclick="toggleEraser()">🧽</div>
+  <div id="grid"></div>
+</div>
+
+<button onclick="saveBase()">salvar base</button>
+
+<script src="script.js"></script>
 </body>
 </html>
