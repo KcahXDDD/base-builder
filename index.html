@@ -7,39 +7,38 @@
 </head>
 <body>
 
-<h1>Base Builder - Taming.io</h1>
+<div class="container">
+  <h1>Base Builder - Taming.io</h1>
 
-<div class="top-controls">
-  Builders:
-  <input type="number" id="builders" min="0">
+  <div class="player-settings">
+    <label>builders:</label>
+    <input type="number" id="playerCount" min="1" value="1">
+    <button id="saveTxt">save .txt</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="structure-item" draggable="true" data-type="fire-tower">
+      <img src="img/fire-tower.png">
+      <span class="counter">0/1</span>
+    </div>
+
+    <div class="structure-item" draggable="true" data-type="wall">
+      <img src="img/wall.png">
+      <span class="counter">0/50</span>
+    </div>
+
+    <div class="structure-item" draggable="true" data-type="door">
+      <img src="img/door.png">
+      <span class="counter">0/8</span>
+    </div>
+  </div>
+
+  <div class="build-area" id="buildArea">
+    <div id="eraser">🧽</div>
+  </div>
+
+  <button id="clearBtn">clean</button>
 </div>
-
-<div class="buttons">
-  <button onclick="showItems('fire')">
-    <img src="img/fire.png">
-  </button>
-  <button onclick="showItems('wood')">
-    <img src="img/wood.png">
-  </button>
-  <button onclick="showItems('stone')">
-    <img src="img/stone.png">
-  </button>
-  <button onclick="showItems('gold')">
-    <img src="img/gold.png">
-  </button>
-  <button onclick="showItems('misc')">
-    <img src="img/misc.png">
-  </button>
-</div>
-
-<div id="items"></div>
-
-<div class="builder-area">
-  <div id="eraser" onclick="toggleEraser()">🧽</div>
-  <div id="grid"></div>
-</div>
-
-<button onclick="saveBase()">salvar base</button>
 
 <script src="script.js"></script>
 </body>
