@@ -2,51 +2,62 @@ const buildArea = document.getElementById("buildArea");
 const tools = document.querySelectorAll(".tool");
 const playerCountInput = document.getElementById("playerCount");
 const clearBtn = document.getElementById("clearBtn");
+const scaleSlider = document.getElementById("scaleSlider");
+const trash = document.getElementById("trash");
 
 let draggedType = null;
-
-const limits = {
-    castle_wall: p => 100 * p,
-    turret_assembled: p => 2 * p,
-    heal_pad: p => 4 * p,
-    boost: p => 12 * p,
-    trap: p => 12 * p,
-    windmill_assembled: p => 8 * p,
-
-    spikes: p => 30 * p,
-    farms: p => 2 * p,
-    roofs: p => 32 * p
-};
+let selected = null;
+const rotations = new WeakMap();
 
 const groups = {
-    big_spike: "spikes",
-    hard_spike: "spikes",
+    wood_farm: "farm",
+    wood_farm_cherry: "farm",
+    bush: "farm",
+    rock: "farm",
 
-    wood_farm: "farms",
-    wood_farm_cherry: "farms",
-    bush: "farms",
-    rock: "farms",
+    big_spike: "spike",
+    hard_spike: "spike",
 
-    roof: "roofs",
-    platform: "roofs"
+    roof: "roof",
+    platform: "roof"
 };
 
-const count = {};
+const limitsBase = {
+    castle_wall: 100,
+    turret_assembled: 2,
+    heal_pad: 4,
+    boost: 12,
+    trap: 12,
+    windmill_assembled: 8,
+    farm: 2,
+    spike: 30,
+    roof: 32
+};
 
-function getLimit(type) {
+const used = {};
+
+function getGroup(type) {
+    return groups[type] || type;
+}
+
+function getMax(type) {
     const p = parseInt(playerCountInput.value) || 1;
-    if (groups[type]) return limits[groups[type]](p);
-    return limits[type](p);
+    return limitsBase[getGroup(type)] * p;
 }
 
-function getCount(type) {
-    if (groups[type]) return count[groups[type]] || 0;
-    return count[type] || 0;
+function updateCounters() {
+    tools.forEach(tool => {
+        const type = tool.dataset.type;
+        const group = getGroup(type);
+        const u = used[group] || 0;
+        const m = getMax(type);
+        tool.querySelector(".counter").textContent = `${u}/${m}`;
+    });
 }
 
-tools.forEach(t => {
-    t.addEventListener("dragstart", e => {
-        draggedType = t.dataset.type;
+tools.forEach(tool => {
+    tool.addEventListener("dragstart", () => {
+        draggedType = tool.dataset.type;
     });
 });
 
@@ -56,7 +67,10 @@ buildArea.addEventListener("drop", e => {
     e.preventDefault();
     if (!draggedType) return;
 
-    if (getCount(draggedType) >= getLimit(draggedType)) return;
+    const group = getGroup(draggedType);
+    used[group] = used[group] || 0;
+
+    if (used[group] >= getMax(draggedType)) return;
 
     const el = document.createElement("div");
     el.className = "placed";
@@ -64,41 +78,74 @@ buildArea.addEventListener("drop", e => {
 
     const img = document.createElement("img");
     img.src = `img/${draggedType}.png`;
-
     el.appendChild(img);
+
     buildArea.appendChild(el);
 
     img.onload = () => {
-        el.style.left = e.offsetX - img.naturalWidth / 2 + "px";
-        el.style.top = e.offsetY - img.naturalHeight / 2 + "px";
+        el.style.left = e.offsetX + "px";
+        el.style.top = e.offsetY + "px";
     };
 
-    const key = groups[draggedType] || draggedType;
-    count[key] = (count[key] || 0) + 1;
-
-    enableMove(el);
+    used[group]++;
+    updateCounters();
+    enableSelect(el);
 });
 
-function enableMove(el) {
-    let ox, oy, dragging = false;
-
+function enableSelect(el) {
     el.addEventListener("mousedown", e => {
-        dragging = true;
-        ox = e.offsetX;
-        oy = e.offsetY;
+        e.stopPropagation();
+        if (selected) selected.classList.remove("selected");
+        selected = el;
+        selected.classList.add("selected");
     });
-
-    document.addEventListener("mousemove", e => {
-        if (!dragging) return;
-        const r = buildArea.getBoundingClientRect();
-        el.style.left = e.clientX - r.left - ox + "px";
-        el.style.top = e.clientY - r.top - oy + "px";
-    });
-
-    document.addEventListener("mouseup", () => dragging = false);
 }
 
-clearBtn.addEventListener("click", () => {
-    buildArea.innerHTML = "";
-    for (let k in count) count[k] = 0;
+buildArea.addEventListener("click", () => {
+    if (selected) selected.classList.remove("selected");
+    selected = null;
 });
+
+document.addEventListener("keydown", e => {
+    if (e.key === "'" && selected) removeSelected();
+});
+
+trash.addEventListener("click", removeSelected);
+
+function removeSelected() {
+    if (!selected) return;
+    const group = getGroup(selected.dataset.type);
+    used[group]--;
+    selected.remove();
+    selected = null;
+    updateCounters();
+}
+
+buildArea.addEventListener("wheel", e => {
+    if (!selected) return;
+    e.preventDefault();
+
+    let r = rotations.get(selected) || 0;
+    r += e.deltaY > 0 ? 5 : -5;
+    rotations.set(selected, r);
+
+    const img = selected.querySelector("img");
+    img.style.transform = `scale(${scaleSlider.value}) rotate(${r}deg)`;
+});
+
+scaleSlider.addEventListener("input", () => {
+    document.querySelectorAll(".placed img").forEach(img => {
+        img.style.transform = `scale(${scaleSlider.value})`;
+    });
+});
+
+clearBtn.addEventListener("click", () => {
+    document.querySelectorAll(".placed").forEach(p => p.remove());
+    for (let k in used) used[k] = 0;
+    selected = null;
+    updateCounters();
+});
+
+playerCountInput.addEventListener("input", updateCounters);
+
+updateCounters();
