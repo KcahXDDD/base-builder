@@ -3,7 +3,6 @@ const tools = document.querySelectorAll(".tool");
 const playerCountInput = document.getElementById("playerCount");
 const clearBtn = document.getElementById("clearBtn");
 const scaleSlider = document.getElementById("scaleSlider");
-const trash = document.getElementById("trash");
 
 let draggedType = null;
 let selected = null;
@@ -91,15 +90,12 @@ buildArea.addEventListener("drop", e => {
 
     used[group]++;
     updateCounters();
-    enableSelect(el);
-});
 
-function enableSelect(el) {
-    el.addEventListener("mousedown", e => {
+    el.addEventListener("click", e => {
         e.stopPropagation();
         select(el);
     });
-}
+});
 
 function select(el) {
     if (selected) selected.classList.remove("selected");
@@ -107,30 +103,20 @@ function select(el) {
     selected.classList.add("selected");
 }
 
-buildArea.addEventListener("mousedown", () => {
+buildArea.addEventListener("click", () => {
     if (selected) selected.classList.remove("selected");
     selected = null;
 });
 
 document.addEventListener("keydown", e => {
     if (e.key === "'" && selected) {
-        deleteSelected();
+        const group = getGroup(selected.dataset.type);
+        used[group]--;
+        selected.remove();
+        selected = null;
+        updateCounters();
     }
 });
-
-trash.addEventListener("mousedown", e => {
-    e.stopPropagation();
-    deleteSelected();
-});
-
-function deleteSelected() {
-    if (!selected) return;
-    const group = getGroup(selected.dataset.type);
-    used[group]--;
-    selected.remove();
-    selected = null;
-    updateCounters();
-}
 
 buildArea.addEventListener("wheel", e => {
     if (!selected) return;
