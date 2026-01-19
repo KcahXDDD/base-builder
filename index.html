@@ -1,161 +1,172 @@
-<html lang="pt-br"><head>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base Builder - Taming.io</title>
+    <title>Base Builder - Sploop.io</title>
     <link rel="stylesheet" href="style.css">
-<style type="text/css" id="operaUserStyle"></style></head>
+
+    <style>
+        /* mantém tamanho original das imagens quando colocadas na base */
+        .placed-structure img {
+            width: auto !important;
+            height: auto !important;
+            max-width: none !important;
+            max-height: none !important;
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+
 <body>
     <div class="container">
-        <h1>Base Builder - Taming.io</h1>
+        <h1>Base Builder - Sploop.io</h1>
 
         <div class="player-settings">
             <label for="playerCount">Builders:</label>
             <input type="number" id="playerCount" min="1" max="10" value="1" placeholder="Builders">
-            <button id="saveProjectBtn" style="margin-left: 20px; padding: 8px 16px; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 6px; transition: 0.3s; transform: translateY(0px);">💾 Save Project</button>
+
+            <button id="saveProjectBtn" style="margin-left: 20px; padding: 8px 16px; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 6px; transition: 0.3s; transform: translateY(0px);">
+                💾 Save Project
+            </button>
         </div>
 
         <div class="toolbar">
-            <div class="structure-item" draggable="true" data-structure="heal-pad" style="opacity: 1; cursor: grab;">
-                <img src="img/heal-pad.png" alt="Heal Pad">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="wall" style="opacity: 1; cursor: grab;">
-                <img src="img/wall.png" alt="Wall">
-            <div class="structure-counter">0/50</div></div>
-            <div class="structure-item" draggable="true" data-structure="windmill" style="opacity: 1; cursor: grab;">
-                <img src="img/windmill.png" alt="Windmill">
-            <div class="structure-counter">0/5</div></div>
-            <div class="structure-item" draggable="false" data-structure="repair-tower" style="opacity: 0.5; cursor: not-allowed;">
-                <img src="img/repair-tower.png" alt="Repair Tower">
-            <div class="structure-counter limit-reached">1/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="water-tower" style="opacity: 1; cursor: grab;">
-                <img src="img/water-tower.png" alt="Water Tower">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="plant-tower" style="opacity: 1; cursor: grab;">
-                <img src="img/plant-tower.png" alt="Plant Tower">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="spectrum-tower" style="opacity: 1; cursor: grab;">
-                <img src="img/spectrum-tower.png" alt="Spectrum Tower">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="fire-tower" style="opacity: 1; cursor: grab;">
-                <img src="img/fire-tower.png" alt="Fire Tower">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="ice-tower" style="opacity: 1; cursor: grab;">
-                <img src="img/ice-tower.png" alt="Ice Tower">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="electric-tower" style="opacity: 1; cursor: grab;">
-                <img src="img/electric-tower.png" alt="Electric Tower">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="rock-tower" style="opacity: 1; cursor: grab;">
-                <img src="img/rock-tower.png" alt="Rock Tower">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="turrets" style="opacity: 1; cursor: grab;">
-                <img src="img/turrets.png" alt="Turrets">
-            <div class="structure-counter">0/2</div></div>
-            <div class="structure-item" draggable="true" data-structure="mauve" style="opacity: 1; cursor: grab;">
-                <img src="img/mauve.png" alt="Mauve">
-            <div class="structure-counter">0/3</div></div>
-            <div class="structure-item" draggable="true" data-structure="water-mask" style="opacity: 1; cursor: grab;">
-                <img src="img/water-mask.png" alt="Water Mask">
-            <div class="structure-counter">0/3</div></div>
-            <div class="structure-item" draggable="true" data-structure="door" style="opacity: 1; cursor: grab;">
-                <img src="img/door.png" alt="Door">
-            <div class="structure-counter">0/8</div></div>
-            <div class="structure-item" draggable="true" data-structure="totem" style="opacity: 1; cursor: grab;">
-                <img src="img/totem.png" alt="Totem">
-            <div class="structure-counter">0/1</div></div>
-            <div class="structure-item" draggable="true" data-structure="normal-fairy" style="opacity: 1; cursor: grab;">
-                <img src="img/normal-fairy.png" alt="Normal Fairy">
-            <div class="structure-counter">0/3</div></div>
-            <div class="structure-item" draggable="true" data-structure="normal-mask" style="opacity: 1; cursor: grab;">
-                <img src="img/normal-mask.png" alt="Normal Mask">
-            <div class="structure-counter">0/3</div></div>
-            <div class="structure-item" draggable="true" data-structure="rock-mask" style="opacity: 1; cursor: grab;">
-                <img src="img/rock-mask.png" alt="Rock Mask">
-            <div class="structure-counter">0/3</div></div>
-            <div class="structure-item" draggable="true" data-structure="water-fairy" style="opacity: 1; cursor: grab;">
-                <img src="img/water-fairy.png" alt="Water Fairy">
-            <div class="structure-counter">0/3</div></div>
+
+            <div class="structure-item" draggable="true" data-structure="turret">
+                <img src="img/turret_assembled.png" alt="Turret">
+                <div class="structure-counter">0/6</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="castle-wall">
+                <img src="img/castle_wall.png" alt="Castle Wall">
+                <div class="structure-counter">0/100</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="heal-pad">
+                <img src="img/heal_pad.png" alt="Heal Pad">
+                <div class="structure-counter">0/3</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="boost">
+                <img src="img/boost.png" alt="Boost">
+                <div class="structure-counter">0/3</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="big-spike">
+                <img src="img/big_spike.png" alt="Big Spike">
+                <div class="structure-counter">0/12</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="hard-spike">
+                <img src="img/hard_spike.png" alt="Hard Spike">
+                <div class="structure-counter">0/12</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="wood-farm">
+                <img src="img/wood_farm.png" alt="Wood Farm">
+                <div class="structure-counter">0/6</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="wood-farm-cherry">
+                <img src="img/wood_farm_cherry.png" alt="Cherry Wood Farm">
+                <div class="structure-counter">0/3</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="bush">
+                <img src="img/bush.png" alt="Bush">
+                <div class="structure-counter">0/20</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="rock">
+                <img src="img/rock.png" alt="Rock">
+                <div class="structure-counter">0/20</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="roof">
+                <img src="img/roof.png" alt="Roof">
+                <div class="structure-counter">0/12</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="platform">
+                <img src="img/platform.png" alt="Platform">
+                <div class="structure-counter">0/12</div>
+            </div>
+
+            <div class="structure-item" draggable="true" data-structure="windmill">
+                <img src="img/windmill_assembled.png" alt="Windmill">
+                <div class="structure-counter">0/3</div>
+            </div>
+
         </div>
 
         <div class="build-area" id="buildArea">
-            <!-- Trash bin invisível para o script.js funcionar -->
-            <div class="trash-bin" id="trashBin" style="display: none;"></div>
+            <div class="trash-bin" id="trashBin" style="display:none;"></div>
+
             <div class="signature">
                 By: dyc uwu
             </div>
-            <div style="position: absolute; bottom: 35px; left: 10px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #ffffff; background: rgba(0, 0, 0, 0.7); padding: 8px 14px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4); border: 1px solid rgba(88, 101, 242, 0.3);">
-                <span style="font-weight: 500;">Donations &amp; Suggestions</span>
-                <svg style="width: 20px; height: 20px; filter: drop-shadow(0 0 4px rgba(88, 101, 242, 0.6));" viewBox="0 0 24 24" fill="#5865F2">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"></path>
-                </svg>
-                <span style="font-weight: bold; color: #5865F2; text-shadow: 0 0 6px rgba(88, 101, 242, 0.7); font-size: 14px;">ehhdyc</span>
-            </div>
-        <div class="placed-structure" data-structure="repair-tower" style="position: absolute; left: 289px; top: 77px;"><img src="img/repair-tower.png" alt="repair-tower"></div><div class="placed-structure" data-structure="poison-fairy" style="position: absolute; left: 569px; top: 62px;"><img src="img/poison-fairy.png" alt="poison-fairy"></div></div><div style="display: flex; justify-content: center; margin-top: 10px;"><label style="margin-right: 10px; color: rgb(51, 51, 51); font-weight: bold; align-self: center;">Scale: </label><input type="range" min="0.5" max="1" step="0.1" style="width: 300px;"></div>
+        </div>
+
+        <div style="display:flex; justify-content:center; margin-top:10px;">
+            <label style="margin-right:10px; font-weight:bold;">Scale:</label>
+            <input type="range" min="0.5" max="1" step="0.1" style="width:300px;">
+        </div>
 
         <div class="controls">
             <button id="clearBtn">Clean</button>
         </div>
-        <div class="instructions" style="text-align:center; margin-top:10px; font-size:20px; color:#ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
+
+        <div class="instructions" style="text-align:center; margin-top:10px; font-size:20px;">
             To rotate the blocks: select it, then use the scroll wheel or press <strong>R</strong>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <script>
-        // Função para salvar o projeto como imagem PNG
         document.getElementById('saveProjectBtn').addEventListener('click', async function() {
-            const btn = document.getElementById('saveProjectBtn');
+            const btn = this;
             const originalText = btn.innerHTML;
-            
-            // Feedback visual durante o processo
+
             btn.innerHTML = '📸 Capturing...';
             btn.disabled = true;
-            
+
             try {
                 const buildArea = document.getElementById('buildArea');
-                
-                // Ocultar temporariamente elementos que não devem aparecer no print
                 const trashBin = document.getElementById('trashBin');
                 const signature = buildArea.querySelector('.signature');
-                const donations = buildArea.querySelectorAll('div[style*="Donations"]');
-                
-                const hideElements = [trashBin, signature, ...donations].filter(el => el);
-                hideElements.forEach(el => el.style.display = 'none');
-                
-                // Capturar a área de construção como imagem
+
+                [trashBin, signature].forEach(el => el && (el.style.display = 'none'));
+
                 const canvas = await html2canvas(buildArea, {
-                    backgroundColor: '#2d5016',
+                    backgroundColor: '#2b2b2b',
                     scale: 2,
                     logging: false,
                     useCORS: true
                 });
-                
-                // Restaurar elementos ocultos
-                hideElements.forEach(el => el.style.display = '');
-                
-                // Converter canvas para PNG e fazer download
-                canvas.toBlob(function(blob) {
+
+                [trashBin, signature].forEach(el => el && (el.style.display = ''));
+
+                canvas.toBlob(blob => {
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = `taming-base-${new Date().getTime()}.png`;
+                    link.download = `sploop-base-${Date.now()}.png`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
                     URL.revokeObjectURL(url);
-                    
-                    // Feedback de sucesso
+
                     btn.innerHTML = '✅ Saved!';
-                    btn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
                     setTimeout(() => {
                         btn.innerHTML = originalText;
-                        btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
                         btn.disabled = false;
                     }, 2000);
                 });
-                
-            } catch (error) {
-                console.error('Erro ao capturar imagem:', error);
+
+            } catch (e) {
+                console.error(e);
                 btn.innerHTML = '❌ Error';
                 setTimeout(() => {
                     btn.innerHTML = originalText;
@@ -163,21 +174,8 @@
                 }, 2000);
             }
         });
-        
-        // Efeito hover no botão
-        const saveBtn = document.getElementById('saveProjectBtn');
-        saveBtn.addEventListener('mouseenter', function() {
-            if (!this.disabled) {
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 6px 12px rgba(0,0,0,0.3)';
-            }
-        });
-        saveBtn.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 6px rgba(0,0,0,0.2)';
-        });
     </script>
+
     <script src="script.js"></script>
-
-
-<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"></div></body></html>
+</body>
+</html>
