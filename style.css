@@ -1,117 +1,14 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background: #1e2330;
-    color: white;
-    font-family: arial, sans-serif;
-}
-
-.container {
-    max-width: 1400px;
-    margin: auto;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.player-settings {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    background: #2a2f3e;
-    padding: 12px;
-    border-radius: 8px;
-}
-
-.tool {
-    width: 56px;
-    height: 72px;
-    background: #1b1f2a;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: grab;
-}
-
-.tool img {
-    max-width: 48px;
-    max-height: 48px;
-    pointer-events: none;
-}
-
-.counter {
-    font-size: 12px;
-    margin-top: 2px;
-    color: #ccc;
-}
-
-.build-area {
-    position: relative;
-    margin-top: 20px;
-    height: 900px;
-    background-color: #4c6b3c;
-    background-image:
-        linear-gradient(rgba(0,0,0,.15) 2px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,.15) 2px, transparent 1px);
-    background-size: 50px 50px;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
 .placed {
     position: absolute;
-    cursor: move;
-}
-
-.placed img {
-    transform: scale(0.5);
-    transform-origin: top left;
-    image-rendering: pixelated;
-    pointer-events: none;
 }
 
 .placed.selected {
     outline: 2px solid #4a90e2;
+    outline-offset: 0;
 }
 
-#trash {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 50px;
-    height: 50px;
-    background: rgba(255,0,0,0.3);
-    border: 2px solid red;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-.scale-control {
-    margin-top: 10px;
-    text-align: center;
-}
-
-.controls {
-    margin-top: 15px;
-    text-align: center;
+.placed img {
+    display: block;
+    pointer-events: none;
+    transform-origin: center center;
 }
