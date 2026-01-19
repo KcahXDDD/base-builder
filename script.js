@@ -1,136 +1,104 @@
-document.addEventListener('DOMContentLoaded', function () {
+const buildArea = document.getElementById("buildArea");
+const tools = document.querySelectorAll(".tool");
+const playerCountInput = document.getElementById("playerCount");
+const clearBtn = document.getElementById("clearBtn");
 
-    const buildArea = document.getElementById('buildArea');
-    const structureItems = document.querySelectorAll('.structure-item');
-    const clearBtn = document.getElementById('clearBtn');
-    const playerCount = document.getElementById('playerCount');
+let draggedType = null;
 
-    const structureLimits = {
-        'turret': 2,
-        'heal-pad': 4,
-        'boost': 12,
-        'trap': 12,
+const limits = {
+    castle_wall: p => 100 * p,
+    turret_assembled: p => 2 * p,
+    heal_pad: p => 4 * p,
+    boost: p => 12 * p,
+    trap: p => 12 * p,
+    windmill_assembled: p => 8 * p,
 
-        'wood-farm': 0.5,
-        'wood-farm-cherry': 0.5,
-        'bush': 0.5,
-        'rock': 0.5,
+    spikes: p => 30 * p,
+    farms: p => 2 * p,
+    roofs: p => 32 * p
+};
 
-        'powermill': 8,
+const groups = {
+    big_spike: "spikes",
+    hard_spike: "spikes",
 
-        'hard-spike': 15,
-        'big-spike': 15,
+    wood_farm: "farms",
+    wood_farm_cherry: "farms",
+    bush: "farms",
+    rock: "farms",
 
-        'roof': 16,
-        'platform': 16,
+    roof: "roofs",
+    platform: "roofs"
+};
 
-        'castle-wall': 100
+const count = {};
+
+function getLimit(type) {
+    const p = parseInt(playerCountInput.value) || 1;
+    if (groups[type]) return limits[groups[type]](p);
+    return limits[type](p);
+}
+
+function getCount(type) {
+    if (groups[type]) return count[groups[type]] || 0;
+    return count[type] || 0;
+}
+
+tools.forEach(t => {
+    t.addEventListener("dragstart", e => {
+        draggedType = t.dataset.type;
+    });
+});
+
+buildArea.addEventListener("dragover", e => e.preventDefault());
+
+buildArea.addEventListener("drop", e => {
+    e.preventDefault();
+    if (!draggedType) return;
+
+    if (getCount(draggedType) >= getLimit(draggedType)) return;
+
+    const el = document.createElement("div");
+    el.className = "placed";
+    el.dataset.type = draggedType;
+
+    const img = document.createElement("img");
+    img.src = `img/${draggedType}.png`;
+
+    el.appendChild(img);
+    buildArea.appendChild(el);
+
+    img.onload = () => {
+        el.style.left = e.offsetX - img.naturalWidth / 2 + "px";
+        el.style.top = e.offsetY - img.naturalHeight / 2 + "px";
     };
 
-    const placedStructuresCount = {};
-    Object.keys(structureLimits).forEach(t => placedStructuresCount[t] = 0);
+    const key = groups[draggedType] || draggedType;
+    count[key] = (count[key] || 0) + 1;
 
-    function updateAllCounters() {
-        const players = parseInt(playerCount.value) || 1;
+    enableMove(el);
+});
 
-        structureItems.forEach(item => {
-            const type = item.dataset.structure;
-            const counter = item.querySelector('.structure-counter');
-            const limit = Math.floor(structureLimits[type] * players);
-            const count = placedStructuresCount[type];
+function enableMove(el) {
+    let ox, oy, dragging = false;
 
-            counter.textContent = `${count}/${limit}`;
-
-            if (count >= limit) {
-                item.draggable = false;
-                item.style.opacity = '0.5';
-                item.style.cursor = 'not-allowed';
-            } else {
-                item.draggable = true;
-                item.style.opacity = '1';
-                item.style.cursor = 'grab';
-            }
-        });
-    }
-
-    updateAllCounters();
-    playerCount.addEventListener('change', updateAllCounters);
-
-    let draggedType = null;
-
-    structureItems.forEach(item => {
-        item.addEventListener('dragstart', e => {
-            draggedType = item.dataset.structure;
-            e.dataTransfer.setData('text/plain', draggedType);
-        });
+    el.addEventListener("mousedown", e => {
+        dragging = true;
+        ox = e.offsetX;
+        oy = e.offsetY;
     });
 
-    buildArea.addEventListener('dragover', e => e.preventDefault());
-
-    buildArea.addEventListener('drop', e => {
-        e.preventDefault();
-        if (!draggedType) return;
-
-        const players = parseInt(playerCount.value) || 1;
-        const limit = Math.floor(structureLimits[draggedType] * players);
-        if (placedStructuresCount[draggedType] >= limit) return;
-
-        const block = document.createElement('div');
-        block.className = 'placed-structure';
-        block.dataset.structure = draggedType;
-
-        const img = document.createElement('img');
-        img.src = `img/${draggedType}.png`;
-        img.style.width = 'auto';
-        img.style.height = 'auto';
-        img.style.maxWidth = 'none';
-        img.style.maxHeight = 'none';
-
-        block.appendChild(img);
-        buildArea.appendChild(block);
-
-        const rect = buildArea.getBoundingClientRect();
-        block.style.left = (e.clientX - rect.left) + 'px';
-        block.style.top = (e.clientY - rect.top) + 'px';
-
-        enableDrag(block);
-
-        placedStructuresCount[draggedType]++;
-        updateAllCounters();
+    document.addEventListener("mousemove", e => {
+        if (!dragging) return;
+        const r = buildArea.getBoundingClientRect();
+        el.style.left = e.clientX - r.left - ox + "px";
+        el.style.top = e.clientY - r.top - oy + "px";
     });
 
-    function enableDrag(el) {
-        let dragging = false;
-        let startX, startY, origX, origY;
+    document.addEventListener("mouseup", () => dragging = false);
+}
 
-        el.addEventListener('mousedown', e => {
-            dragging = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            origX = parseInt(el.style.left) || 0;
-            origY = parseInt(el.style.top) || 0;
-
-            document.addEventListener('mousemove', move);
-            document.addEventListener('mouseup', stop);
-        });
-
-        function move(e) {
-            if (!dragging) return;
-            el.style.left = origX + (e.clientX - startX) + 'px';
-            el.style.top = origY + (e.clientY - startY) + 'px';
-        }
-
-        function stop() {
-            dragging = false;
-            document.removeEventListener('mousemove', move);
-            document.removeEventListener('mouseup', stop);
-        }
-    }
-
-    clearBtn.addEventListener('click', () => {
-        buildArea.querySelectorAll('.placed-structure').forEach(b => b.remove());
-        Object.keys(placedStructuresCount).forEach(k => placedStructuresCount[k] = 0);
-        updateAllCounters();
-    });
-
+clearBtn.addEventListener("click", () => {
+    buildArea.innerHTML = "";
+    for (let k in count) count[k] = 0;
 });
