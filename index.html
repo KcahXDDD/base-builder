@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Sploop.io Base Builder</title>
+    <meta charset="utf-8">
+    <title>sploop.io base builder</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,23 +16,72 @@
     </div>
 
     <div class="toolbar">
-        <div class="tool" draggable="true" data-type="castle_wall"><img src="img/castle_wall.png"></div>
-        <div class="tool" draggable="true" data-type="turret_assembled"><img src="img/turret_assembled.png"></div>
-        <div class="tool" draggable="true" data-type="heal_pad"><img src="img/heal_pad.png"></div>
-        <div class="tool" draggable="true" data-type="boost"><img src="img/boost.png"></div>
-        <div class="tool" draggable="true" data-type="trap"><img src="img/trap.png"></div>
-        <div class="tool" draggable="true" data-type="big_spike"><img src="img/big_spike.png"></div>
-        <div class="tool" draggable="true" data-type="hard_spike"><img src="img/hard_spike.png"></div>
-        <div class="tool" draggable="true" data-type="wood_farm"><img src="img/wood_farm.png"></div>
-        <div class="tool" draggable="true" data-type="wood_farm_cherry"><img src="img/wood_farm_cherry.png"></div>
-        <div class="tool" draggable="true" data-type="bush"><img src="img/bush.png"></div>
-        <div class="tool" draggable="true" data-type="rock"><img src="img/rock.png"></div>
-        <div class="tool" draggable="true" data-type="windmill_assembled"><img src="img/windmill_assembled.png"></div>
-        <div class="tool" draggable="true" data-type="roof"><img src="img/roof.png"></div>
-        <div class="tool" draggable="true" data-type="platform"><img src="img/platform.png"></div>
+        <div class="tool" draggable="true" data-type="castle_wall">
+            <img src="img/castle_wall.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="turret_assembled">
+            <img src="img/turret_assembled.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="heal_pad">
+            <img src="img/heal_pad.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="boost">
+            <img src="img/boost.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="trap">
+            <img src="img/trap.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="big_spike">
+            <img src="img/big_spike.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="hard_spike">
+            <img src="img/hard_spike.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="wood_farm">
+            <img src="img/wood_farm.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="wood_farm_cherry">
+            <img src="img/wood_farm_cherry.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="bush">
+            <img src="img/bush.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="rock">
+            <img src="img/rock.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="windmill_assembled">
+            <img src="img/windmill_assembled.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="roof">
+            <img src="img/roof.png">
+            <div class="counter">0/0</div>
+        </div>
+        <div class="tool" draggable="true" data-type="platform">
+            <img src="img/platform.png">
+            <div class="counter">0/0</div>
+        </div>
     </div>
 
-    <div class="build-area" id="buildArea"></div>
+    <div class="build-area" id="buildArea">
+        <div id="trash">🗑</div>
+    </div>
+
+    <div class="scale-control">
+        scale
+        <input type="range" id="scaleSlider" min="0.3" max="1.5" step="0.1" value="0.5">
+    </div>
 
     <div class="controls">
         <button id="clearBtn">clean</button>
