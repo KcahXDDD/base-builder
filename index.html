@@ -2,112 +2,43 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base Builder - Sploop.io</title>
+    <title>Sploop.io Base Builder</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div class="container">
 
-    <h1>Base Builder - Sploop.io</h1>
+<div class="container">
+    <h1>sploop.io base builder</h1>
 
     <div class="player-settings">
-        <label for="playerCount">builders:</label>
+        <label>builders</label>
         <input type="number" id="playerCount" min="1" max="10" value="1">
-        <button id="saveProjectBtn">💾 save project</button>
     </div>
 
     <div class="toolbar">
-
-        <div class="structure-item" draggable="true" data-structure="castle-wall">
-            <img src="img/castle-wall.png">
-            <div class="structure-counter">0/100</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="turret">
-            <img src="img/turret.png">
-            <div class="structure-counter">0/2</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="heal-pad">
-            <img src="img/heal-pad.png">
-            <div class="structure-counter">0/4</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="boost">
-            <img src="img/boost.png">
-            <div class="structure-counter">0/12</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="trap">
-            <img src="img/trap.png">
-            <div class="structure-counter">0/12</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="hard-spike">
-            <img src="img/hard-spike.png">
-            <div class="structure-counter">0/30</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="big-spike">
-            <img src="img/big-spike.png">
-            <div class="structure-counter">0/30</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="wood-farm">
-            <img src="img/wood-farm.png">
-            <div class="structure-counter">0/2</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="wood-farm-cherry">
-            <img src="img/wood-farm-cherry.png">
-            <div class="structure-counter">0/2</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="bush">
-            <img src="img/bush.png">
-            <div class="structure-counter">0/2</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="rock">
-            <img src="img/rock.png">
-            <div class="structure-counter">0/2</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="powermill">
-            <img src="img/powermill.png">
-            <div class="structure-counter">0/8</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="roof">
-            <img src="img/roof.png">
-            <div class="structure-counter">0/32</div>
-        </div>
-
-        <div class="structure-item" draggable="true" data-structure="platform">
-            <img src="img/platform.png">
-            <div class="structure-counter">0/32</div>
-        </div>
-
+        <div class="tool" draggable="true" data-type="castle_wall"><img src="img/castle_wall.png"></div>
+        <div class="tool" draggable="true" data-type="turret_assembled"><img src="img/turret_assembled.png"></div>
+        <div class="tool" draggable="true" data-type="heal_pad"><img src="img/heal_pad.png"></div>
+        <div class="tool" draggable="true" data-type="boost"><img src="img/boost.png"></div>
+        <div class="tool" draggable="true" data-type="trap"><img src="img/trap.png"></div>
+        <div class="tool" draggable="true" data-type="big_spike"><img src="img/big_spike.png"></div>
+        <div class="tool" draggable="true" data-type="hard_spike"><img src="img/hard_spike.png"></div>
+        <div class="tool" draggable="true" data-type="wood_farm"><img src="img/wood_farm.png"></div>
+        <div class="tool" draggable="true" data-type="wood_farm_cherry"><img src="img/wood_farm_cherry.png"></div>
+        <div class="tool" draggable="true" data-type="bush"><img src="img/bush.png"></div>
+        <div class="tool" draggable="true" data-type="rock"><img src="img/rock.png"></div>
+        <div class="tool" draggable="true" data-type="windmill_assembled"><img src="img/windmill_assembled.png"></div>
+        <div class="tool" draggable="true" data-type="roof"><img src="img/roof.png"></div>
+        <div class="tool" draggable="true" data-type="platform"><img src="img/platform.png"></div>
     </div>
 
-    <div class="build-area" id="buildArea">
-        <div class="trash-bin" id="trashBin" style="display:none;"></div>
-        <div class="signature">by: dyc uwu</div>
-    </div>
+    <div class="build-area" id="buildArea"></div>
 
     <div class="controls">
         <button id="clearBtn">clean</button>
     </div>
-
-    <div class="instructions">
-        scroll ou tecla R pra girar
-    </div>
-
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
