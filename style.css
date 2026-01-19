@@ -5,96 +5,91 @@
 }
 
 body {
-    font-family: tahoma, sans-serif;
-    background: linear-gradient(135deg, #1b1f3b, #2f365f);
-    padding: 20px;
+    background: #1e2330;
+    font-family: Arial, sans-serif;
+    color: white;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: auto;
+    padding: 20px;
 }
 
 h1 {
     text-align: center;
-    color: white;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.player-settings {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 .toolbar {
     display: flex;
     flex-wrap: wrap;
-    gap: 18px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
+    gap: 12px;
+    justify-content: center;
+    background: #2a2f3e;
+    padding: 12px;
+    border-radius: 8px;
 }
 
-.structure-item {
-    width: 60px;
-    height: 60px;
-    position: relative;
+.tool {
+    width: 56px;
+    height: 56px;
+    background: #1b1f2a;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: grab;
 }
 
-.structure-item img {
-    width: 100%;
-    height: 100%;
-}
-
-.structure-counter {
-    position: absolute;
-    bottom: -18px;
-    font-size: 11px;
-    background: #eee;
-    padding: 2px 6px;
-    border-radius: 10px;
+.tool img {
+    max-width: 48px;
+    max-height: 48px;
+    pointer-events: none;
 }
 
 .build-area {
     position: relative;
-    width: 100%;
+    margin-top: 20px;
     height: 900px;
-    background: #3e6b2f;
+    background-color: #4c6b3c;
+    background-image:
+        linear-gradient(rgba(0,0,0,.15) 2px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.15) 2px, transparent 1px);
     background-size: 50px 50px;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
-.placed-structure {
+.placed {
     position: absolute;
     cursor: move;
 }
 
-.placed-structure img {
+.placed img {
     width: auto;
     height: auto;
-    max-width: none;
-    max-height: none;
+    pointer-events: none;
     image-rendering: pixelated;
 }
 
 .controls {
     margin-top: 15px;
-    display: flex;
-    justify-content: center;
+    text-align: center;
 }
 
 button {
-    padding: 12px 30px;
+    padding: 10px 20px;
+    background: #4a90e2;
     border: none;
-    border-radius: 20px;
-    background: #5865f2;
     color: white;
-    font-weight: bold;
+    border-radius: 6px;
     cursor: pointer;
-}
-
-.signature {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    color: white;
-    font-size: 22px;
 }
