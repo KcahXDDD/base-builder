@@ -6,30 +6,41 @@ document.addEventListener('DOMContentLoaded', function () {
     const trashBin = document.getElementById('trashBin');
 
     const structureLimits = {
-        'heal-pad': 1,
-        'wall': 50,
-        'windmill': 5,
-        'repair-tower': 1,
-        'water-tower': 1,
-        'plant-tower': 1,
-        'spectrum-tower': 1,
-        'fire-tower': 1,
-        'ice-tower': 1,
-        'electric-tower': 1,
-        'rock-tower': 1,
-        'turrets': 2,
-        'door': 8,
-        'totem': 1,
-        'mauve': 3,
-        'water-mask': 3,
-        'normal-fairy': 3,
-        'normal-mask': 3,
-        'rock-mask': 3,
-        'water-fairy': 3
+        turret: 2,
+        heal_pad: 4,
+        boost: 12,
+        trap: 12,
+        windmill_assembled: 8,
+        castle_wall: 100,
+
+        big_spike: 30,
+        hard_spike: 30,
+
+        roof: 32,
+        platform: 32,
+
+        bush: 2,
+        rock: 2,
+        wood_farm: 2,
+        wood_farm_cherry: 2
+    };
+
+    const sharedGroups = {
+        spikes: ['big_spike', 'hard_spike'],
+        floors: ['roof', 'platform'],
+        resources: ['bush', 'rock', 'wood_farm', 'wood_farm_cherry']
     };
 
     const placedStructuresCount = {};
     Object.keys(structureLimits).forEach(t => placedStructuresCount[t] = 0);
+
+    function getSharedCount(group) {
+        return group.reduce((sum, t) => sum + (placedStructuresCount[t] || 0), 0);
+    }
+
+    function getSharedLimit(group, players, limitPerBuilder) {
+        return limitPerBuilder * players;
+    }
 
     function updateAllCounters() {
         const players = parseInt(playerCount.value) || 1;
@@ -37,8 +48,24 @@ document.addEventListener('DOMContentLoaded', function () {
         structureItems.forEach(item => {
             const type = item.dataset.structure;
             const counter = item.querySelector('.structure-counter');
-            const limit = structureLimits[type] * players;
-            const count = placedStructuresCount[type];
+
+            let limit = structureLimits[type] * players;
+            let count = placedStructuresCount[type];
+
+            if (sharedGroups.spikes.includes(type)) {
+                limit = getSharedLimit(sharedGroups.spikes, players, 30);
+                count = getSharedCount(sharedGroups.spikes);
+            }
+
+            if (sharedGroups.floors.includes(type)) {
+                limit = getSharedLimit(sharedGroups.floors, players, 32);
+                count = getSharedCount(sharedGroups.floors);
+            }
+
+            if (sharedGroups.resources.includes(type)) {
+                limit = getSharedLimit(sharedGroups.resources, players, 2);
+                count = getSharedCount(sharedGroups.resources);
+            }
 
             counter.textContent = `${count}/${limit}`;
 
@@ -75,8 +102,26 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!draggedType) return;
 
         const players = parseInt(playerCount.value) || 1;
-        const limit = structureLimits[draggedType] * players;
-        if (placedStructuresCount[draggedType] >= limit) return;
+
+        let limit = structureLimits[draggedType] * players;
+        let count = placedStructuresCount[draggedType];
+
+        if (sharedGroups.spikes.includes(draggedType)) {
+            limit = getSharedLimit(sharedGroups.spikes, players, 30);
+            count = getSharedCount(sharedGroups.spikes);
+        }
+
+        if (sharedGroups.floors.includes(draggedType)) {
+            limit = getSharedLimit(sharedGroups.floors, players, 32);
+            count = getSharedCount(sharedGroups.floors);
+        }
+
+        if (sharedGroups.resources.includes(draggedType)) {
+            limit = getSharedLimit(sharedGroups.resources, players, 2);
+            count = getSharedCount(sharedGroups.resources);
+        }
+
+        if (count >= limit) return;
 
         const block = document.createElement('div');
         block.className = 'placed-structure';
@@ -90,11 +135,8 @@ document.addEventListener('DOMContentLoaded', function () {
         buildArea.appendChild(block);
 
         const rect = buildArea.getBoundingClientRect();
-        let x = e.clientX - rect.left;
-        let y = e.clientY - rect.top;
-
-        block.style.left = `${Math.max(0, x)}px`;
-        block.style.top = `${Math.max(0, y)}px`;
+        block.style.left = `${Math.max(0, e.clientX - rect.left)}px`;
+        block.style.top = `${Math.max(0, e.clientY - rect.top)}px`;
 
         enableDrag(block);
 
@@ -153,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function () {
     buildArea.addEventListener('wheel', e => {
         if (!selectedBlock) return;
         e.preventDefault();
-
         const current = selectedBlock.dataset.angle ? parseFloat(selectedBlock.dataset.angle) : 0;
         const angle = current - e.deltaY * 0.05;
         selectedBlock.dataset.angle = angle;
@@ -161,12 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.addEventListener('keydown', e => {
-        if (
-            (e.key === 'Delete' ||
-             e.key === 'Backspace' ||
-             e.key === "'") &&
-            selectedBlock
-        ) {
+        if ((e.key === 'Delete' || e.key === 'Backspace') && selectedBlock) {
             const type = selectedBlock.dataset.structure;
             selectedBlock.remove();
             selectedBlock = null;
