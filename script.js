@@ -1,58 +1,48 @@
 const buildArea = document.getElementById("buildArea");
 const tools = document.querySelectorAll(".tool");
-const playerCountInput = document.getElementById("playerCount");
-const clearBtn = document.getElementById("clearBtn");
 const scaleSlider = document.getElementById("scaleSlider");
+const clearBtn = document.getElementById("clearBtn");
+const playerCount = document.getElementById("playerCount");
 
 let draggedType = null;
 let selected = null;
 let globalScale = parseFloat(scaleSlider.value);
 
 const rotations = new WeakMap();
+const used = {};
 
 const groups = {
-    wood_farm: "farm",
-    wood_farm_cherry: "farm",
-    bush: "farm",
-    rock: "farm",
-
     big_spike: "spike",
     hard_spike: "spike",
-
     roof: "roof",
     platform: "roof"
 };
 
-const limitsBase = {
+const limits = {
     castle_wall: 100,
     turret_assembled: 2,
     heal_pad: 4,
     boost: 12,
     trap: 12,
-    windmill_assembled: 8,
-    farm: 2,
     spike: 30,
+    windmill_assembled: 8,
     roof: 32
 };
 
-const used = {};
-
-function getGroup(type) {
+function groupOf(type) {
     return groups[type] || type;
 }
 
-function getMax(type) {
-    const p = parseInt(playerCountInput.value) || 1;
-    return limitsBase[getGroup(type)] * p;
+function maxOf(type) {
+    return limits[groupOf(type)] * (parseInt(playerCount.value) || 1);
 }
 
 function updateCounters() {
-    tools.forEach(tool => {
-        const type = tool.dataset.type;
-        const group = getGroup(type);
-        const u = used[group] || 0;
-        const m = getMax(type);
-        tool.querySelector(".counter").textContent = `${u}/${m}`;
+    tools.forEach(t => {
+        const type = t.dataset.type;
+        const g = groupOf(type);
+        const u = used[g] || 0;
+        t.querySelector(".counter").textContent = `${u}/${maxOf(type)}`;
     });
 }
 
@@ -68,16 +58,16 @@ buildArea.addEventListener("drop", e => {
     e.preventDefault();
     if (!draggedType) return;
 
-    const group = getGroup(draggedType);
-    used[group] = used[group] || 0;
-    if (used[group] >= getMax(draggedType)) return;
+    const g = groupOf(draggedType);
+    used[g] = used[g] || 0;
+    if (used[g] >= maxOf(draggedType)) return;
 
     const el = document.createElement("div");
     el.className = "placed";
     el.dataset.type = draggedType;
 
     const img = document.createElement("img");
-    img.src = `img/${draggedType}.png`;
+    img.src = document.querySelector(`[data-type="${draggedType}"] img`).src;
 
     el.appendChild(img);
     buildArea.appendChild(el);
@@ -88,19 +78,19 @@ buildArea.addEventListener("drop", e => {
     rotations.set(el, 0);
     applyTransform(el);
 
-    used[group]++;
-    updateCounters();
-
-    el.addEventListener("click", e => {
-        e.stopPropagation();
+    el.addEventListener("click", ev => {
+        ev.stopPropagation();
         select(el);
     });
+
+    used[g]++;
+    updateCounters();
 });
 
 function select(el) {
     if (selected) selected.classList.remove("selected");
     selected = el;
-    selected.classList.add("selected");
+    el.classList.add("selected");
 }
 
 buildArea.addEventListener("click", () => {
@@ -110,8 +100,8 @@ buildArea.addEventListener("click", () => {
 
 document.addEventListener("keydown", e => {
     if (e.key === "'" && selected) {
-        const group = getGroup(selected.dataset.type);
-        used[group]--;
+        const g = groupOf(selected.dataset.type);
+        used[g]--;
         selected.remove();
         selected = null;
         updateCounters();
@@ -131,24 +121,22 @@ buildArea.addEventListener("wheel", e => {
 
 function applyTransform(el) {
     const r = rotations.get(el) || 0;
-    const img = el.querySelector("img");
-    img.style.transform = `scale(${globalScale}) rotate(${r}deg)`;
+    el.querySelector("img").style.transform =
+        `scale(${globalScale}) rotate(${r}deg)`;
 }
 
 scaleSlider.addEventListener("input", () => {
     globalScale = parseFloat(scaleSlider.value);
-    document.querySelectorAll(".placed").forEach(el => {
-        applyTransform(el);
-    });
+    document.querySelectorAll(".placed").forEach(applyTransform);
 });
 
 clearBtn.addEventListener("click", () => {
-    document.querySelectorAll(".placed").forEach(p => p.remove());
+    document.querySelectorAll(".placed").forEach(e => e.remove());
     for (let k in used) used[k] = 0;
     selected = null;
     updateCounters();
 });
 
-playerCountInput.addEventListener("input", updateCounters);
+playerCount.addEventListener("input", updateCounters);
 
 updateCounters();
