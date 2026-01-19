@@ -7,6 +7,8 @@ const trash = document.getElementById("trash");
 
 let draggedType = null;
 let selected = null;
+let globalScale = parseFloat(scaleSlider.value);
+
 const rotations = new WeakMap();
 
 const groups = {
@@ -69,7 +71,6 @@ buildArea.addEventListener("drop", e => {
 
     const group = getGroup(draggedType);
     used[group] = used[group] || 0;
-
     if (used[group] >= getMax(draggedType)) return;
 
     const el = document.createElement("div");
@@ -78,14 +79,15 @@ buildArea.addEventListener("drop", e => {
 
     const img = document.createElement("img");
     img.src = `img/${draggedType}.png`;
-    el.appendChild(img);
 
+    el.appendChild(img);
     buildArea.appendChild(el);
 
-    img.onload = () => {
-        el.style.left = e.offsetX + "px";
-        el.style.top = e.offsetY + "px";
-    };
+    el.style.left = e.offsetX + "px";
+    el.style.top = e.offsetY + "px";
+
+    rotations.set(el, 0);
+    applyTransform(el);
 
     used[group]++;
     updateCounters();
@@ -95,24 +97,33 @@ buildArea.addEventListener("drop", e => {
 function enableSelect(el) {
     el.addEventListener("mousedown", e => {
         e.stopPropagation();
-        if (selected) selected.classList.remove("selected");
-        selected = el;
-        selected.classList.add("selected");
+        select(el);
     });
 }
 
-buildArea.addEventListener("click", () => {
+function select(el) {
+    if (selected) selected.classList.remove("selected");
+    selected = el;
+    selected.classList.add("selected");
+}
+
+buildArea.addEventListener("mousedown", () => {
     if (selected) selected.classList.remove("selected");
     selected = null;
 });
 
 document.addEventListener("keydown", e => {
-    if (e.key === "'" && selected) removeSelected();
+    if (e.key === "'" && selected) {
+        deleteSelected();
+    }
 });
 
-trash.addEventListener("click", removeSelected);
+trash.addEventListener("mousedown", e => {
+    e.stopPropagation();
+    deleteSelected();
+});
 
-function removeSelected() {
+function deleteSelected() {
     if (!selected) return;
     const group = getGroup(selected.dataset.type);
     used[group]--;
@@ -129,13 +140,19 @@ buildArea.addEventListener("wheel", e => {
     r += e.deltaY > 0 ? 5 : -5;
     rotations.set(selected, r);
 
-    const img = selected.querySelector("img");
-    img.style.transform = `scale(${scaleSlider.value}) rotate(${r}deg)`;
+    applyTransform(selected);
 });
 
+function applyTransform(el) {
+    const r = rotations.get(el) || 0;
+    const img = el.querySelector("img");
+    img.style.transform = `scale(${globalScale}) rotate(${r}deg)`;
+}
+
 scaleSlider.addEventListener("input", () => {
-    document.querySelectorAll(".placed img").forEach(img => {
-        img.style.transform = `scale(${scaleSlider.value})`;
+    globalScale = parseFloat(scaleSlider.value);
+    document.querySelectorAll(".placed").forEach(el => {
+        applyTransform(el);
     });
 });
 
