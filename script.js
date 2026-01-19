@@ -1,46 +1,34 @@
 document.addEventListener('DOMContentLoaded', function () {
+
     const buildArea = document.getElementById('buildArea');
     const structureItems = document.querySelectorAll('.structure-item');
     const clearBtn = document.getElementById('clearBtn');
     const playerCount = document.getElementById('playerCount');
-    const trashBin = document.getElementById('trashBin');
 
     const structureLimits = {
-        turret: 2,
-        heal_pad: 4,
-        boost: 12,
-        trap: 12,
-        windmill_assembled: 8,
-        castle_wall: 100,
+        'turret': 2,
+        'heal-pad': 4,
+        'boost': 12,
+        'trap': 12,
 
-        big_spike: 30,
-        hard_spike: 30,
+        'wood-farm': 0.5,
+        'wood-farm-cherry': 0.5,
+        'bush': 0.5,
+        'rock': 0.5,
 
-        roof: 32,
-        platform: 32,
+        'powermill': 8,
 
-        bush: 2,
-        rock: 2,
-        wood_farm: 2,
-        wood_farm_cherry: 2
-    };
+        'hard-spike': 15,
+        'big-spike': 15,
 
-    const sharedGroups = {
-        spikes: ['big_spike', 'hard_spike'],
-        floors: ['roof', 'platform'],
-        resources: ['bush', 'rock', 'wood_farm', 'wood_farm_cherry']
+        'roof': 16,
+        'platform': 16,
+
+        'castle-wall': 100
     };
 
     const placedStructuresCount = {};
     Object.keys(structureLimits).forEach(t => placedStructuresCount[t] = 0);
-
-    function getSharedCount(group) {
-        return group.reduce((sum, t) => sum + (placedStructuresCount[t] || 0), 0);
-    }
-
-    function getSharedLimit(group, players, limitPerBuilder) {
-        return limitPerBuilder * players;
-    }
 
     function updateAllCounters() {
         const players = parseInt(playerCount.value) || 1;
@@ -48,24 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
         structureItems.forEach(item => {
             const type = item.dataset.structure;
             const counter = item.querySelector('.structure-counter');
-
-            let limit = structureLimits[type] * players;
-            let count = placedStructuresCount[type];
-
-            if (sharedGroups.spikes.includes(type)) {
-                limit = getSharedLimit(sharedGroups.spikes, players, 30);
-                count = getSharedCount(sharedGroups.spikes);
-            }
-
-            if (sharedGroups.floors.includes(type)) {
-                limit = getSharedLimit(sharedGroups.floors, players, 32);
-                count = getSharedCount(sharedGroups.floors);
-            }
-
-            if (sharedGroups.resources.includes(type)) {
-                limit = getSharedLimit(sharedGroups.resources, players, 2);
-                count = getSharedCount(sharedGroups.resources);
-            }
+            const limit = Math.floor(structureLimits[type] * players);
+            const count = placedStructuresCount[type];
 
             counter.textContent = `${count}/${limit}`;
 
@@ -73,12 +45,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 item.draggable = false;
                 item.style.opacity = '0.5';
                 item.style.cursor = 'not-allowed';
-                counter.classList.add('limit-reached');
             } else {
                 item.draggable = true;
                 item.style.opacity = '1';
                 item.style.cursor = 'grab';
-                counter.classList.remove('limit-reached');
             }
         });
     }
@@ -102,41 +72,26 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!draggedType) return;
 
         const players = parseInt(playerCount.value) || 1;
-
-        let limit = structureLimits[draggedType] * players;
-        let count = placedStructuresCount[draggedType];
-
-        if (sharedGroups.spikes.includes(draggedType)) {
-            limit = getSharedLimit(sharedGroups.spikes, players, 30);
-            count = getSharedCount(sharedGroups.spikes);
-        }
-
-        if (sharedGroups.floors.includes(draggedType)) {
-            limit = getSharedLimit(sharedGroups.floors, players, 32);
-            count = getSharedCount(sharedGroups.floors);
-        }
-
-        if (sharedGroups.resources.includes(draggedType)) {
-            limit = getSharedLimit(sharedGroups.resources, players, 2);
-            count = getSharedCount(sharedGroups.resources);
-        }
-
-        if (count >= limit) return;
+        const limit = Math.floor(structureLimits[draggedType] * players);
+        if (placedStructuresCount[draggedType] >= limit) return;
 
         const block = document.createElement('div');
         block.className = 'placed-structure';
         block.dataset.structure = draggedType;
-        block.style.position = 'absolute';
 
         const img = document.createElement('img');
         img.src = `img/${draggedType}.png`;
-        block.appendChild(img);
+        img.style.width = 'auto';
+        img.style.height = 'auto';
+        img.style.maxWidth = 'none';
+        img.style.maxHeight = 'none';
 
+        block.appendChild(img);
         buildArea.appendChild(block);
 
         const rect = buildArea.getBoundingClientRect();
-        block.style.left = `${Math.max(0, e.clientX - rect.left)}px`;
-        block.style.top = `${Math.max(0, e.clientY - rect.top)}px`;
+        block.style.left = (e.clientX - rect.left) + 'px';
+        block.style.top = (e.clientY - rect.top) + 'px';
 
         enableDrag(block);
 
@@ -178,36 +133,4 @@ document.addEventListener('DOMContentLoaded', function () {
         updateAllCounters();
     });
 
-    let selectedBlock = null;
-
-    buildArea.addEventListener('click', e => {
-        const target = e.target.closest('.placed-structure');
-        if (target) {
-            if (selectedBlock) selectedBlock.classList.remove('selected');
-            selectedBlock = target;
-            selectedBlock.classList.add('selected');
-        } else {
-            if (selectedBlock) selectedBlock.classList.remove('selected');
-            selectedBlock = null;
-        }
-    });
-
-    buildArea.addEventListener('wheel', e => {
-        if (!selectedBlock) return;
-        e.preventDefault();
-        const current = selectedBlock.dataset.angle ? parseFloat(selectedBlock.dataset.angle) : 0;
-        const angle = current - e.deltaY * 0.05;
-        selectedBlock.dataset.angle = angle;
-        selectedBlock.style.transform = `rotate(${angle}deg)`;
-    });
-
-    document.addEventListener('keydown', e => {
-        if ((e.key === 'Delete' || e.key === 'Backspace') && selectedBlock) {
-            const type = selectedBlock.dataset.structure;
-            selectedBlock.remove();
-            selectedBlock = null;
-            placedStructuresCount[type]--;
-            updateAllCounters();
-        }
-    });
 });
