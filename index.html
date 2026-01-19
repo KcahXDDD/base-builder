@@ -5,177 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base Builder - Sploop.io</title>
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* mantém tamanho original das imagens quando colocadas na base */
-        .placed-structure img {
-            width: auto !important;
-            height: auto !important;
-            max-width: none !important;
-            max-height: none !important;
-            image-rendering: pixelated;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Base Builder - Sploop.io</h1>
+<div class="container">
 
-        <div class="player-settings">
-            <label for="playerCount">Builders:</label>
-            <input type="number" id="playerCount" min="1" max="10" value="1" placeholder="Builders">
+    <h1>Base Builder - Sploop.io</h1>
 
-            <button id="saveProjectBtn" style="margin-left: 20px; padding: 8px 16px; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 6px; transition: 0.3s; transform: translateY(0px);">
-                💾 Save Project
-            </button>
-        </div>
-
-        <div class="toolbar">
-
-            <div class="structure-item" draggable="true" data-structure="turret">
-                <img src="img/turret_assembled.png" alt="Turret">
-                <div class="structure-counter">0/6</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="castle-wall">
-                <img src="img/castle_wall.png" alt="Castle Wall">
-                <div class="structure-counter">0/100</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="heal-pad">
-                <img src="img/heal_pad.png" alt="Heal Pad">
-                <div class="structure-counter">0/3</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="boost">
-                <img src="img/boost.png" alt="Boost">
-                <div class="structure-counter">0/3</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="big-spike">
-                <img src="img/big_spike.png" alt="Big Spike">
-                <div class="structure-counter">0/12</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="hard-spike">
-                <img src="img/hard_spike.png" alt="Hard Spike">
-                <div class="structure-counter">0/12</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="wood-farm">
-                <img src="img/wood_farm.png" alt="Wood Farm">
-                <div class="structure-counter">0/6</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="wood-farm-cherry">
-                <img src="img/wood_farm_cherry.png" alt="Cherry Wood Farm">
-                <div class="structure-counter">0/3</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="bush">
-                <img src="img/bush.png" alt="Bush">
-                <div class="structure-counter">0/20</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="rock">
-                <img src="img/rock.png" alt="Rock">
-                <div class="structure-counter">0/20</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="roof">
-                <img src="img/roof.png" alt="Roof">
-                <div class="structure-counter">0/12</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="platform">
-                <img src="img/platform.png" alt="Platform">
-                <div class="structure-counter">0/12</div>
-            </div>
-
-            <div class="structure-item" draggable="true" data-structure="windmill">
-                <img src="img/windmill_assembled.png" alt="Windmill">
-                <div class="structure-counter">0/3</div>
-            </div>
-
-        </div>
-
-        <div class="build-area" id="buildArea">
-            <div class="trash-bin" id="trashBin" style="display:none;"></div>
-
-            <div class="signature">
-                By: dyc uwu
-            </div>
-        </div>
-
-        <div style="display:flex; justify-content:center; margin-top:10px;">
-            <label style="margin-right:10px; font-weight:bold;">Scale:</label>
-            <input type="range" min="0.5" max="1" step="0.1" style="width:300px;">
-        </div>
-
-        <div class="controls">
-            <button id="clearBtn">Clean</button>
-        </div>
-
-        <div class="instructions" style="text-align:center; margin-top:10px; font-size:20px;">
-            To rotate the blocks: select it, then use the scroll wheel or press <strong>R</strong>
-        </div>
+    <div class="player-settings">
+        <label for="playerCount">builders:</label>
+        <input type="number" id="playerCount" min="1" max="10" value="1">
+        <button id="saveProjectBtn">💾 save project</button>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <div class="toolbar">
 
-    <script>
-        document.getElementById('saveProjectBtn').addEventListener('click', async function() {
-            const btn = this;
-            const originalText = btn.innerHTML;
+        <div class="structure-item" draggable="true" data-structure="castle-wall">
+            <img src="img/castle-wall.png">
+            <div class="structure-counter">0/100</div>
+        </div>
 
-            btn.innerHTML = '📸 Capturing...';
-            btn.disabled = true;
+        <div class="structure-item" draggable="true" data-structure="turret">
+            <img src="img/turret.png">
+            <div class="structure-counter">0/2</div>
+        </div>
 
-            try {
-                const buildArea = document.getElementById('buildArea');
-                const trashBin = document.getElementById('trashBin');
-                const signature = buildArea.querySelector('.signature');
+        <div class="structure-item" draggable="true" data-structure="heal-pad">
+            <img src="img/heal-pad.png">
+            <div class="structure-counter">0/4</div>
+        </div>
 
-                [trashBin, signature].forEach(el => el && (el.style.display = 'none'));
+        <div class="structure-item" draggable="true" data-structure="boost">
+            <img src="img/boost.png">
+            <div class="structure-counter">0/12</div>
+        </div>
 
-                const canvas = await html2canvas(buildArea, {
-                    backgroundColor: '#2b2b2b',
-                    scale: 2,
-                    logging: false,
-                    useCORS: true
-                });
+        <div class="structure-item" draggable="true" data-structure="trap">
+            <img src="img/trap.png">
+            <div class="structure-counter">0/12</div>
+        </div>
 
-                [trashBin, signature].forEach(el => el && (el.style.display = ''));
+        <div class="structure-item" draggable="true" data-structure="hard-spike">
+            <img src="img/hard-spike.png">
+            <div class="structure-counter">0/30</div>
+        </div>
 
-                canvas.toBlob(blob => {
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = `sploop-base-${Date.now()}.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(url);
+        <div class="structure-item" draggable="true" data-structure="big-spike">
+            <img src="img/big-spike.png">
+            <div class="structure-counter">0/30</div>
+        </div>
 
-                    btn.innerHTML = '✅ Saved!';
-                    setTimeout(() => {
-                        btn.innerHTML = originalText;
-                        btn.disabled = false;
-                    }, 2000);
-                });
+        <div class="structure-item" draggable="true" data-structure="wood-farm">
+            <img src="img/wood-farm.png">
+            <div class="structure-counter">0/2</div>
+        </div>
 
-            } catch (e) {
-                console.error(e);
-                btn.innerHTML = '❌ Error';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }, 2000);
-            }
-        });
-    </script>
+        <div class="structure-item" draggable="true" data-structure="wood-farm-cherry">
+            <img src="img/wood-farm-cherry.png">
+            <div class="structure-counter">0/2</div>
+        </div>
 
-    <script src="script.js"></script>
+        <div class="structure-item" draggable="true" data-structure="bush">
+            <img src="img/bush.png">
+            <div class="structure-counter">0/2</div>
+        </div>
+
+        <div class="structure-item" draggable="true" data-structure="rock">
+            <img src="img/rock.png">
+            <div class="structure-counter">0/2</div>
+        </div>
+
+        <div class="structure-item" draggable="true" data-structure="powermill">
+            <img src="img/powermill.png">
+            <div class="structure-counter">0/8</div>
+        </div>
+
+        <div class="structure-item" draggable="true" data-structure="roof">
+            <img src="img/roof.png">
+            <div class="structure-counter">0/32</div>
+        </div>
+
+        <div class="structure-item" draggable="true" data-structure="platform">
+            <img src="img/platform.png">
+            <div class="structure-counter">0/32</div>
+        </div>
+
+    </div>
+
+    <div class="build-area" id="buildArea">
+        <div class="trash-bin" id="trashBin" style="display:none;"></div>
+        <div class="signature">by: dyc uwu</div>
+    </div>
+
+    <div class="controls">
+        <button id="clearBtn">clean</button>
+    </div>
+
+    <div class="instructions">
+        scroll ou tecla R pra girar
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
