@@ -1,93 +1,80 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    font-family: Arial, sans-serif;
-    background: #e6e6e6;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRito9H5EECccICYYGgoQfmQmSko2wAcVmF-A&s") no-repeat center center fixed;
+  background-size: cover;
 }
 
-h1 {
-    padding: 10px;
+.chat-container {
+  display: flex;
+  height: 100vh;
+  backdrop-filter: blur(4px);
 }
 
-.top {
-    padding: 10px;
+.users {
+  width: 200px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 10px;
 }
 
-.layout {
-    display: flex;
-    height: calc(100vh - 90px);
+.users ul {
+  list-style: none;
+  padding: 0;
 }
 
-/* toolbar */
-.toolbar {
-    width: 120px;
-    background: #f4f4f4;
-    border-right: 2px solid #bbb;
-    padding: 10px;
-    overflow-y: auto;
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.tool {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 16px;
-    cursor: grab;
+#messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
 }
 
-.tool img {
-    width: 56px;
-    height: 56px;
-    object-fit: contain;
+.message {
+  max-width: 60%;
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 10px;
 }
 
-.counter {
-    font-size: 13px;
-    margin-top: 4px;
-}
-
-/* right side */
 .right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+  background: #4caf50;
+  color: white;
+  margin-left: auto;
+  text-align: right;
 }
 
-/* build area */
-.build-area {
-    flex: 1;
-    background: #7da86a;
-    border: 3px solid #333;
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
+.left {
+  background: #eee;
+  color: black;
 }
 
-/* placed sprites */
-.placed {
-    position: absolute;
-    cursor: pointer;
+.system {
+  text-align: center;
+  color: #ddd;
+  font-size: 12px;
 }
 
-.placed img {
-    display: block;
-    pointer-events: none;
-    transform-origin: center center;
+form {
+  display: flex;
+  background: rgba(0,0,0,0.7);
 }
 
-.placed.selected {
-    outline: 2px solid #4a90e2;
+input {
+  flex: 1;
+  padding: 10px;
+  border: none;
 }
 
-/* controls */
-.controls {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
 }
