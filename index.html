@@ -1,85 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>sploop.io base builder</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Chat</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="chat-container">
+    <aside class="users">
+      <h3>Online</h3>
+      <ul id="users"></ul>
+    </aside>
 
-<h1>sploop.io base builder</h1>
+    <main class="chat">
+      <div id="messages"></div>
+      <form id="form">
+        <input id="input" placeholder="Digite sua mensagem..." autocomplete="off">
+        <button>Enviar</button>
+      </form>
+    </main>
+  </div>
 
-<div class="top">
-    builders
-    <input id="playerCount" type="number" value="1" min="1">
-</div>
-
-<div class="layout">
-    <div class="toolbar" id="toolbar">
-
-        <div class="tool" draggable="true" data-type="castle_wall">
-            <img src="https://sploop.io/img/entity/castle_wall.png">
-            <div class="counter">0/100</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="turret_assembled">
-            <img src="https://sploop.io/img/entity/turret_assembled.png">
-            <div class="counter">0/2</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="heal_pad">
-            <img src="https://sploop.io/img/entity/heal_pad.png">
-            <div class="counter">0/4</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="boost">
-            <img src="https://sploop.io/img/entity/boost.png">
-            <div class="counter">0/12</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="trap">
-            <img src="https://sploop.io/img/entity/trap.png">
-            <div class="counter">0/12</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="big_spike">
-            <img src="https://sploop.io/img/entity/big_spike.png">
-            <div class="counter">0/30</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="hard_spike">
-            <img src="https://sploop.io/img/entity/hard_spike.png">
-            <div class="counter">0/30</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="windmill_assembled">
-            <img src="https://sploop.io/img/entity/windmill_assembled.png">
-            <div class="counter">0/8</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="roof">
-            <img src="https://sploop.io/img/entity/roof.png">
-            <div class="counter">0/32</div>
-        </div>
-
-        <div class="tool" draggable="true" data-type="platform">
-            <img src="https://sploop.io/img/entity/platform.png">
-            <div class="counter">0/32</div>
-        </div>
-
-    </div>
-
-    <div class="right">
-        <div id="buildArea" class="build-area"></div>
-
-        <div class="controls">
-            scale
-            <input id="scaleSlider" type="range" min="0.3" max="1.5" step="0.05" value="1">
-            <button id="clearBtn">clean</button>
-        </div>
-    </div>
-</div>
-
-<script src="script.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
